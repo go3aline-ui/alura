@@ -240,6 +240,13 @@ def load_cases(path: Path) -> list[dict]:
     return data
 
 
+def live_cases(cases: list[dict]) -> list[dict]:
+    selected = [case for case in cases if case.get("live")]
+    if not selected:
+        raise ValueError("A matriz não contém casos marcados para homologação ao vivo")
+    return selected
+
+
 def coordinator_from_environment(root: Path) -> TelegramDemoCoordinator:
     required = {
         "TELEGRAM_AUDITOR_TOKEN": os.getenv("TELEGRAM_AUDITOR_TOKEN", ""),
@@ -259,7 +266,6 @@ def coordinator_from_environment(root: Path) -> TelegramDemoCoordinator:
         auditor_api=TelegramAPI(required["TELEGRAM_AUDITOR_TOKEN"]),
         attendant_api=TelegramAPI(required["TELEGRAM_ATENDENTE_TOKEN"]),
         chat_id=required["TELEGRAM_CHAT_ID"],
-        test_cases=load_cases(root / "data" / "perguntas_teste.json"),
+        test_cases=live_cases(load_cases(root / "data" / "perguntas_teste.json")),
         allowed_user_id=os.getenv("TELEGRAM_ALLOWED_USER_ID", ""),
     )
-

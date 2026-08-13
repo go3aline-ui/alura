@@ -8,3 +8,5 @@ data/vector_index.json
 data/vector_index.json.tmp
 reports/*.json
 reports/*.log
+!reports/avaliacao_rag.json
+!reports/avaliacao_recuperacao.json

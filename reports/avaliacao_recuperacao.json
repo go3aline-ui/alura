@@ -1,0 +1,1300 @@
+{
+  "generated_at": "2026-08-13T23:12:24.958967+00:00",
+  "matrix_total": 50,
+  "evaluated": 48,
+  "outside_document_reserved_for_live_test": 2,
+  "passed": 48,
+  "total": 48,
+  "results": [
+    {
+      "id": "escopo_compras_oficiais_latam",
+      "category": "escopo",
+      "passed": true,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        7,
+        8,
+        9
+      ],
+      "expected_pages": [
+        2
+      ],
+      "content_checks": [
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7379,
+        0.7369,
+        0.7182,
+        0.7004
+      ]
+    },
+    {
+      "id": "fora_escopo_canal_nao_oficial",
+      "category": "escopo",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expected_pages": [
+        2
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.681,
+        0.68,
+        0.6754,
+        0.6744
+      ]
+    },
+    {
+      "id": "personalizado_excecao_defeito",
+      "category": "escopo",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        5,
+        6,
+        7,
+        9,
+        10
+      ],
+      "expected_pages": [
+        2
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6839,
+        0.6829,
+        0.6767,
+        0.6757
+      ]
+    },
+    {
+      "id": "lacres_higiene",
+      "category": "escopo",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        13
+      ],
+      "expected_pages": [
+        2
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6286,
+        0.6276,
+        0.6276,
+        0.6233
+      ]
+    },
+    {
+      "id": "fora_prazo_revisao_excepcional",
+      "category": "escopo",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        10,
+        11,
+        13,
+        14
+      ],
+      "expected_pages": [
+        2
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7161,
+        0.7151,
+        0.7151,
+        0.6511
+      ]
+    },
+    {
+      "id": "fraude_abuso_nao_coberto",
+      "category": "escopo",
+      "passed": true,
+      "pages": [
+        1,
+        2,
+        3,
+        5,
+        6,
+        7,
+        10,
+        11,
+        13
+      ],
+      "expected_pages": [
+        2
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.75,
+        0.749,
+        0.749,
+        0.6633
+      ]
+    },
+    {
+      "id": "definicao_defeito_fabrica",
+      "category": "definicoes",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expected_pages": [
+        3
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7886,
+        0.7876,
+        0.7824,
+        0.7814
+      ]
+    },
+    {
+      "id": "definicao_dano_transito",
+      "category": "definicoes",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        7,
+        8
+      ],
+      "expected_pages": [
+        3
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.6446,
+        0.6436,
+        0.6365,
+        0.6328
+      ]
+    },
+    {
+      "id": "definicao_pedido_incorreto",
+      "category": "definicoes",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        6,
+        12,
+        13
+      ],
+      "expected_pages": [
+        3
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6796,
+        0.6786,
+        0.6786,
+        0.6657
+      ]
+    },
+    {
+      "id": "definicao_falta_parcial",
+      "category": "definicoes",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10
+      ],
+      "expected_pages": [
+        3
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.724,
+        0.724,
+        0.6585,
+        0.6576
+      ]
+    },
+    {
+      "id": "prazo_arrependimento",
+      "category": "prazos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        7,
+        9,
+        10
+      ],
+      "expected_pages": [
+        4
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.719,
+        0.718,
+        0.6799,
+        0.6789
+      ]
+    },
+    {
+      "id": "prazo_incorreto_faltante_dano",
+      "category": "prazos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        10,
+        12,
+        13
+      ],
+      "expected_pages": [
+        4
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.75,
+        0.749,
+        0.749,
+        0.749
+      ]
+    },
+    {
+      "id": "prazo_falha_funcionamento",
+      "category": "prazos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        9,
+        10
+      ],
+      "expected_pages": [
+        4
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6951,
+        0.6941,
+        0.6941,
+        0.6833
+      ]
+    },
+    {
+      "id": "tempo_reembolso_aprovado",
+      "category": "prazos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        7,
+        9,
+        10,
+        13
+      ],
+      "expected_pages": [
+        4,
+        10
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.6931,
+        0.6921,
+        0.6921,
+        0.6448
+      ]
+    },
+    {
+      "id": "prazo_revisao_estendida",
+      "category": "prazos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        9,
+        10,
+        13
+      ],
+      "expected_pages": [
+        4
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6419,
+        0.6409,
+        0.6403,
+        0.6393
+      ]
+    },
+    {
+      "id": "canais_oficiais",
+      "category": "atendimento",
+      "passed": true,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        12
+      ],
+      "expected_pages": [
+        4
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7166,
+        0.7156,
+        0.6804,
+        0.6794
+      ]
+    },
+    {
+      "id": "rede_social_nao_valida",
+      "category": "atendimento",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        10,
+        11
+      ],
+      "expected_pages": [
+        4
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6221,
+        0.6211,
+        0.601,
+        0.6
+      ]
+    },
+    {
+      "id": "condicoes_devolucao",
+      "category": "elegibilidade",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        6,
+        9,
+        10
+      ],
+      "expected_pages": [
+        4,
+        5
+      ],
+      "content_checks": [
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.759,
+        0.7321,
+        0.7291,
+        0.7223
+      ]
+    },
+    {
+      "id": "verificacoes_do_suporte",
+      "category": "elegibilidade",
+      "passed": true,
+      "pages": [
+        4,
+        5,
+        8,
+        9,
+        10,
+        11,
+        13
+      ],
+      "expected_pages": [
+        5
+      ],
+      "content_checks": [
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7046,
+        0.7036,
+        0.7036,
+        0.6904
+      ]
+    },
+    {
+      "id": "casos_elegiveis",
+      "category": "elegibilidade",
+      "passed": true,
+      "pages": [
+        1,
+        2,
+        4,
+        5,
+        6,
+        7,
+        12,
+        13
+      ],
+      "expected_pages": [
+        5
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7376,
+        0.7371,
+        0.7366,
+        0.7366
+      ]
+    },
+    {
+      "id": "nao_elegivel_uso_instalacao",
+      "category": "nao_elegiveis",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "expected_pages": [
+        5,
+        6
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.75,
+        0.749,
+        0.7348,
+        0.7338
+      ]
+    },
+    {
+      "id": "nao_elegivel_agua_fogo",
+      "category": "nao_elegiveis",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "expected_pages": [
+        6
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.698,
+        0.697,
+        0.6597,
+        0.6587
+      ]
+    },
+    {
+      "id": "nao_elegivel_consumivel_alterado",
+      "category": "nao_elegiveis",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        12,
+        13
+      ],
+      "expected_pages": [
+        6
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.701,
+        0.7,
+        0.7,
+        0.6712
+      ]
+    },
+    {
+      "id": "nao_elegivel_sem_evidencia",
+      "category": "nao_elegiveis",
+      "passed": true,
+      "pages": [
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "expected_pages": [
+        6
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.699,
+        0.698,
+        0.698,
+        0.6875
+      ]
+    },
+    {
+      "id": "validacao_inicial",
+      "category": "fluxo",
+      "passed": true,
+      "pages": [
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "expected_pages": [
+        6
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6625,
+        0.6615,
+        0.6615,
+        0.6583
+      ]
+    },
+    {
+      "id": "resolucoes_possiveis",
+      "category": "fluxo",
+      "passed": true,
+      "pages": [
+        5,
+        6,
+        7,
+        12,
+        13
+      ],
+      "expected_pages": [
+        6
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6612,
+        0.6602,
+        0.6593,
+        0.6583
+      ]
+    },
+    {
+      "id": "reembolso_parcial_acessorio",
+      "category": "reembolso_parcial",
+      "passed": true,
+      "pages": [
+        5,
+        6,
+        7,
+        9,
+        10,
+        12,
+        13
+      ],
+      "expected_pages": [
+        7
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7715,
+        0.7705,
+        0.7705,
+        0.749
+      ]
+    },
+    {
+      "id": "registro_reembolso_parcial",
+      "category": "reembolso_parcial",
+      "passed": true,
+      "pages": [
+        6,
+        7,
+        8,
+        10,
+        12,
+        13,
+        14
+      ],
+      "expected_pages": [
+        7
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.6375,
+        0.6365,
+        0.6068,
+        0.6058
+      ]
+    },
+    {
+      "id": "custo_arrependimento",
+      "category": "custos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        7,
+        8,
+        9,
+        10,
+        12,
+        13
+      ],
+      "expected_pages": [
+        7
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.692,
+        0.691,
+        0.6478,
+        0.6468
+      ]
+    },
+    {
+      "id": "custo_erro_empresa",
+      "category": "custos",
+      "passed": true,
+      "pages": [
+        3,
+        5,
+        6,
+        7,
+        8
+      ],
+      "expected_pages": [
+        7
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.8202,
+        0.8192,
+        0.7837,
+        0.7827
+      ]
+    },
+    {
+      "id": "custo_garantia_confirmada",
+      "category": "custos",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        5,
+        7,
+        8
+      ],
+      "expected_pages": [
+        7
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.749,
+        0.748,
+        0.6757,
+        0.6747
+      ]
+    },
+    {
+      "id": "custo_incidencia_compartilhada",
+      "category": "custos",
+      "passed": true,
+      "pages": [
+        6,
+        7,
+        8,
+        13
+      ],
+      "expected_pages": [
+        8
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.6591,
+        0.6581,
+        0.6096,
+        0.6086
+      ]
+    },
+    {
+      "id": "evidencia_disputa_entrega",
+      "category": "envios",
+      "passed": true,
+      "pages": [
+        7,
+        8,
+        9,
+        10,
+        13,
+        14
+      ],
+      "expected_pages": [
+        8
+      ],
+      "content_checks": [
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6526,
+        0.6516,
+        0.6516,
+        0.6408
+      ]
+    },
+    {
+      "id": "falha_apos_entrega_garantia",
+      "category": "garantia",
+      "passed": true,
+      "pages": [
+        3,
+        5,
+        6,
+        7,
+        9,
+        12,
+        13
+      ],
+      "expected_pages": [
+        8,
+        13
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.6971,
+        0.6961,
+        0.6961,
+        0.6905
+      ]
+    },
+    {
+      "id": "reembolso_mesmo_meio",
+      "category": "pagamentos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        8,
+        9
+      ],
+      "expected_pages": [
+        8
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.706,
+        0.705,
+        0.6446,
+        0.6436
+      ]
+    },
+    {
+      "id": "ajustes_por_pais",
+      "category": "paises",
+      "passed": true,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        8,
+        9
+      ],
+      "expected_pages": [
+        9
+      ],
+      "content_checks": [
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6405,
+        0.6395,
+        0.6395,
+        0.6203
+      ]
+    },
+    {
+      "id": "evidencias_necessarias",
+      "category": "evidencias",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        8,
+        9,
+        10,
+        11,
+        13
+      ],
+      "expected_pages": [
+        9
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6708,
+        0.6702,
+        0.6698,
+        0.6698
+      ]
+    },
+    {
+      "id": "arrependimento_produto_usado",
+      "category": "ambiguidade",
+      "passed": true,
+      "pages": [
+        3,
+        5,
+        6,
+        7,
+        9,
+        10,
+        11,
+        12,
+        13
+      ],
+      "expected_pages": [
+        12
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7096,
+        0.7086,
+        0.7086,
+        0.6947
+      ]
+    },
+    {
+      "id": "tempos_operacionais",
+      "category": "prazos",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        9,
+        10
+      ],
+      "expected_pages": [
+        10
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6625,
+        0.6615,
+        0.6251,
+        0.6241
+      ]
+    },
+    {
+      "id": "comunicacao_de_recusa",
+      "category": "comunicacao",
+      "passed": true,
+      "pages": [
+        3,
+        4,
+        5,
+        6,
+        7,
+        10,
+        11,
+        12
+      ],
+      "expected_pages": [
+        10,
+        11
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6172,
+        0.6162,
+        0.6155,
+        0.6145
+      ]
+    },
+    {
+      "id": "criterios_complementares",
+      "category": "avaliacao",
+      "passed": true,
+      "pages": [
+        5,
+        7,
+        8,
+        9,
+        10,
+        11,
+        13,
+        14
+      ],
+      "expected_pages": [
+        10
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7042,
+        0.7032,
+        0.6509,
+        0.6499
+      ]
+    },
+    {
+      "id": "solicitacoes_especiais",
+      "category": "excecoes",
+      "passed": true,
+      "pages": [
+        4,
+        7,
+        8,
+        10,
+        11,
+        13,
+        14
+      ],
+      "expected_pages": [
+        10,
+        11
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6206,
+        0.6196,
+        0.6113,
+        0.6103
+      ]
+    },
+    {
+      "id": "areas_envolvidas",
+      "category": "operacao",
+      "passed": true,
+      "pages": [
+        1,
+        2,
+        3,
+        10,
+        11,
+        12,
+        13
+      ],
+      "expected_pages": [
+        11
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7318,
+        0.7308,
+        0.6907,
+        0.6897
+      ]
+    },
+    {
+      "id": "rastreabilidade_minima",
+      "category": "operacao",
+      "passed": true,
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "expected_pages": [
+        11
+      ],
+      "content_checks": [
+        true,
+        true,
+        true,
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6486,
+        0.6476,
+        0.6476,
+        0.642
+      ]
+    },
+    {
+      "id": "pedido_incompleto_evidencia_parcial",
+      "category": "cenarios",
+      "passed": true,
+      "pages": [
+        5,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14
+      ],
+      "expected_pages": [
+        12
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.7375,
+        0.7365,
+        0.7365,
+        0.7132
+      ]
+    },
+    {
+      "id": "devolucao_sem_retorno_fisico",
+      "category": "faq",
+      "passed": true,
+      "pages": [
+        4,
+        5,
+        8,
+        9,
+        12,
+        13
+      ],
+      "expected_pages": [
+        13
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6713,
+        0.6703,
+        0.6703,
+        0.6589
+      ]
+    },
+    {
+      "id": "evidencia_inconclusiva",
+      "category": "faq",
+      "passed": true,
+      "pages": [
+        9,
+        10,
+        12,
+        13,
+        14
+      ],
+      "expected_pages": [
+        13
+      ],
+      "content_checks": [
+        true,
+        true
+      ],
+      "top_scores": [
+        0.6798,
+        0.6788,
+        0.6575,
+        0.6565
+      ]
+    },
+    {
+      "id": "injecao_prazo_reembolso",
+      "category": "seguranca",
+      "passed": true,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        9,
+        10
+      ],
+      "expected_pages": [
+        4,
+        10
+      ],
+      "content_checks": [
+        true
+      ],
+      "top_scores": [
+        0.7222,
+        0.7212,
+        0.7212,
+        0.6888
+      ]
+    }
+  ]
+}

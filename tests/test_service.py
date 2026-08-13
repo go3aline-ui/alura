@@ -72,3 +72,18 @@ def test_retrieval_includes_neighbor_when_section_crosses_pages(tmp_path: Path) 
         "p05-c01",
         "p05-c02",
     }
+
+
+def test_retrieve_many_returns_one_result_group_per_question(tmp_path: Path) -> None:
+    service = RAGService(
+        pdf_path=PDF,
+        index_path=tmp_path / "index.json",
+        client=SimpleNamespace(models=FakeModels()),
+    )
+
+    results = service.retrieve_many(
+        ["Qual é o prazo para desistir da compra?", "Quais são as condições e o prazo?"]
+    )
+
+    assert len(results) == 2
+    assert all(result_group for result_group in results)

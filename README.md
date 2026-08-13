@@ -21,7 +21,7 @@ Colaboradores normalmente precisam procurar respostas manualmente em documentos 
 3. transforma os chunks em embeddings com o Gemini;
 4. salva os vetores em uma base vetorial local;
 5. transforma a pergunta do usuário em embedding;
-6. encontra os trechos semanticamente mais próximos;
+6. combina similaridade semântica e correspondência lexical para encontrar os trechos mais relevantes;
 7. envia somente esses trechos ao modelo de linguagem;
 8. mostra a resposta e as páginas consultadas.
 
@@ -41,7 +41,7 @@ flowchart LR
     A --> I
 ```
 
-O índice atual contém **24 chunks** e embeddings normalizados de **768 dimensões**. A similaridade é calculada por produto escalar entre vetores normalizados, equivalente à similaridade de cosseno.
+O índice atual contém **24 chunks** e embeddings normalizados de **768 dimensões**. A recuperação híbrida combina similaridade de cosseno, termos exatos, frases curtas e chunks vizinhos quando uma regra atravessa páginas.
 
 ## Tecnologias
 
@@ -75,9 +75,12 @@ O projeto não usa LangChain. A implementação direta mantém o código pequeno
 │   └── telegram_demo.py           # coordenação dos dois bots
 ├── scripts/
 │   ├── build_index.py             # cria a base vetorial
-│   ├── evaluate_rag.py            # executa avaliação real
+│   ├── evaluate_retrieval.py       # avalia recuperação em lote
+│   ├── evaluate_rag.py             # avalia respostas completas
+│   ├── send_evaluation_summary.py  # publica o resultado no Telegram
 │   ├── deploy_oci.sh              # deploy reproduzível
 │   └── verify_deploy.py           # healthcheck do deploy
+├── reports/                        # evidências JSON sem credenciais
 ├── tests/                          # testes automatizados
 ├── Dockerfile
 └── docker-compose.yml
@@ -135,13 +138,34 @@ pip install -r requirements-dev.txt
 pytest -q
 ```
 
-Para executar a matriz com embeddings e respostas reais:
+Para avaliar em lote a recuperação de conteúdo e páginas:
+
+```bash
+python scripts/evaluate_retrieval.py
+```
+
+Para executar o subconjunto crítico com respostas reais:
 
 ```bash
 python scripts/evaluate_rag.py
 ```
 
-O relatório é salvo em `reports/avaliacao_rag.json` e não contém credenciais.
+Se uma execução encontrar falhas e o agente for corrigido, repita somente os casos reprovados:
+
+```bash
+python scripts/evaluate_rag.py --resume
+```
+
+### Resultado da matriz ampliada
+
+A matriz contém **50 perguntas** distribuídas por prazos, escopo, elegibilidade, custos, garantia, pagamentos, evidências, fluxo, comunicação, ambiguidades e segurança:
+
+- **48/48** perguntas documentais passaram na recuperação de conteúdo e página esperada;
+- **12/12** casos críticos passaram ponta a ponta com resposta gerada e fontes;
+- os casos críticos incluem paráfrases, pergunta ambígua, premissas falsas, injeção de prompt e duas perguntas fora do documento;
+- **9/9** testes automatizados passaram localmente.
+
+Evidências: [avaliação de recuperação](reports/avaliacao_recuperacao.json) e [avaliação ponta a ponta](reports/avaliacao_rag.json). Nenhum relatório contém credenciais.
 
 ## Exemplos reais
 
@@ -180,9 +204,9 @@ O servidor coordena os turnos para impedir loops entre bots. Comandos disponíve
 
 As credenciais do Telegram ficam somente no `.env`. A funcionalidade não é necessária para usar a interface web nem para compreender o RAG.
 
-A homologação executada na OCI concluiu os seis casos da matriz com aprovação integral:
+A captura abaixo registra a primeira homologação visual dos bots, concluída com seis casos aprovados. A matriz ampliada atual executa doze casos críticos e seus resultados completos estão nos relatórios acima:
 
-![Homologação dos dois bots no Telegram com 6 de 6 casos aprovados](docs/images/homologacao-telegram.png)
+![Primeira homologação dos dois bots no Telegram com 6 de 6 casos aprovados](docs/images/homologacao-telegram.png)
 
 ## Deploy na OCI
 
@@ -212,7 +236,7 @@ python scripts/verify_deploy.py https://alura.147-15-123-74.sslip.io
 - a resposta informa as páginas consultadas;
 - perguntas sem suporte recebem uma resposta de ausência padronizada;
 - chunks vizinhos são incluídos quando uma seção atravessa a quebra de página;
-- a matriz de avaliação inclui deliberadamente uma pergunta fora do documento;
+- a matriz inclui duas perguntas fora do documento e uma tentativa de injeção de prompt;
 - erros internos são apresentados ao usuário sem expor chave, stack trace ou dados sensíveis.
 
 ## Escopo
