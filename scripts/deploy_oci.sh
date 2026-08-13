@@ -9,6 +9,14 @@ if [ ! -f .env ]; then
   exit 1
 fi
 
+# Usa o mesmo UID/GID do dono do projeto para manter o índice gravável no volume.
+if ! grep -q '^APP_UID=' .env; then
+  printf 'APP_UID=%s\n' "$(id -u)" >> .env
+fi
+if ! grep -q '^APP_GID=' .env; then
+  printf 'APP_GID=%s\n' "$(id -g)" >> .env
+fi
+
 docker compose build web
 docker compose up -d web
 
@@ -29,4 +37,3 @@ sudo nginx -t
 sudo systemctl reload nginx
 
 echo "Deploy concluído: http://alura.147-15-123-74.sslip.io"
-

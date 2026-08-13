@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any
 
 from .document import file_sha256, read_pdf_chunks
-from .models import RAGAnswer, SourceExcerpt
+from .models import RAGAnswer, SearchResult, SourceExcerpt
 from .vector_store import VectorStore
 
 
@@ -37,7 +37,7 @@ class RAGService:
         self.index_path = index_path
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.generation_model = generation_model or os.getenv(
-            "GENERATION_MODEL", "gemini-2.5-flash"
+            "GENERATION_MODEL", "gemini-3.6-flash"
         )
         self.embedding_model = embedding_model or os.getenv(
             "EMBEDDING_MODEL", "gemini-embedding-001"
@@ -121,7 +121,23 @@ class RAGService:
         if len(question) > 1_000:
             raise ValueError("A pergunta deve ter no máximo 1.000 caracteres")
         store = self.ensure_index()
-        return store.search(self._embed_query(question), top_k=self.top_k)
+        results = store.search(self._embed_query(question), top_k=self.top_k)
+
+        # Listas e seções podem atravessar a quebra física de uma página. Incluímos
+        # os vizinhos dos dois melhores resultados para preservar esse contexto.
+        positions = {chunk.chunk_id: index for index, chunk in enumerate(store.chunks)}
+        expanded = {result.chunk.chunk_id: result for result in results}
+        for result in results[:2]:
+            position = positions[result.chunk.chunk_id]
+            for neighbor_position in (position - 1, position + 1):
+                if not 0 <= neighbor_position < len(store.chunks):
+                    continue
+                neighbor = store.chunks[neighbor_position]
+                expanded.setdefault(
+                    neighbor.chunk_id,
+                    SearchResult(chunk=neighbor, score=max(result.score - 0.001, 0.0)),
+                )
+        return sorted(expanded.values(), key=lambda item: item.score, reverse=True)
 
     def ask(self, question: str) -> RAGAnswer:
         question = " ".join(question.split()).strip()
@@ -169,8 +185,8 @@ class RAGService:
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=system_instruction,
-                temperature=0.0,
-                max_output_tokens=500,
+                thinking_config=types.ThinkingConfig(thinking_level="low"),
+                max_output_tokens=1_000,
             ),
         )
         answer = (response.text or "").strip()
@@ -178,4 +194,3 @@ class RAGService:
             raise RuntimeError("O modelo não retornou texto")
         grounded = NO_INFORMATION not in answer
         return RAGAnswer(question, answer, tuple(sources), grounded)
-
