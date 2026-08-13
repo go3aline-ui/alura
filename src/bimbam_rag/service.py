@@ -37,7 +37,7 @@ class RAGService:
         self.index_path = index_path
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.generation_model = generation_model or os.getenv(
-            "GENERATION_MODEL", "gemini-3.6-flash"
+            "GENERATION_MODEL", "gemini-3.5-flash-lite"
         )
         self.embedding_model = embedding_model or os.getenv(
             "EMBEDDING_MODEL", "gemini-embedding-001"

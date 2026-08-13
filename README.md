@@ -47,7 +47,7 @@ O índice atual contém **24 chunks** e embeddings normalizados de **768 dimens�
 
 - Python 3.12
 - Streamlit
-- Google Gemini (`gemini-3.6-flash`)
+- Google Gemini (`gemini-3.5-flash-lite`)
 - Gemini Embeddings (`gemini-embedding-001`)
 - pypdf
 - NumPy
@@ -179,6 +179,10 @@ O servidor coordena os turnos para impedir loops entre bots. Comandos disponíve
 ```
 
 As credenciais do Telegram ficam somente no `.env`. A funcionalidade não é necessária para usar a interface web nem para compreender o RAG.
+
+A homologação executada na OCI concluiu os seis casos da matriz com aprovação integral:
+
+![Homologação dos dois bots no Telegram com 6 de 6 casos aprovados](docs/images/homologacao-telegram.png)
 
 ## Deploy na OCI
 
