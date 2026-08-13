@@ -29,7 +29,14 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-      .block-container {max-width: 820px; padding-top: 2rem;}
+      .block-container, [data-testid="stMainBlockContainer"] {
+        max-width: 700px !important;
+        padding-top: 2rem;
+      }
+      [data-testid="stChatMessageContent"] {
+        max-width: 420px;
+        overflow-wrap: anywhere;
+      }
       .hero {
         padding: 1.35rem 1.5rem;
         border: 1px solid #ddd4ff;
@@ -83,8 +90,7 @@ def render_sources(sources: list[dict]) -> None:
             st.divider()
 
 
-with st.sidebar:
-    st.subheader("Sobre o agente")
+with st.expander("Sobre o agente e o documento"):
     st.write(
         "O sistema lê o PDF, divide o texto em chunks, cria embeddings, recupera os trechos "
         "mais relacionados e usa o Gemini para formular a resposta."
@@ -103,17 +109,22 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.write("**Experimente uma pergunta:**")
 example_questions = (
     "Qual é o prazo para devolver um produto por arrependimento?",
     "Quem paga o custo da devolução quando a empresa envia o produto errado?",
     "Quanto tempo demora para receber um reembolso aprovado?",
 )
-columns = st.columns(3)
-selected_example = None
-for column, example in zip(columns, example_questions):
-    if column.button(example, use_container_width=True):
-        selected_example = example
+selected_option = st.selectbox(
+    "Experimente uma pergunta:",
+    options=example_questions,
+    index=None,
+    placeholder="Selecione uma pergunta de exemplo",
+)
+selected_example = selected_option if st.button(
+    "Perguntar ao agente",
+    disabled=selected_option is None,
+    use_container_width=True,
+) else None
 
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -162,4 +173,3 @@ if question:
                 st.session_state.messages.append(
                     {"role": "assistant", "content": message, "sources": []}
                 )
-
