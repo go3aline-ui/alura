@@ -1,0 +1,44 @@
+[
+  {
+    "id": "prazo_arrependimento",
+    "question": "Qual é o prazo para devolver um produto por arrependimento?",
+    "required_groups": [["10 dias corridos"]],
+    "expected_pages": [4],
+    "expect_grounded": true
+  },
+  {
+    "id": "dano_visivel",
+    "question": "Em quanto tempo devo avisar que o produto chegou danificado?",
+    "required_groups": [["48 horas"]],
+    "expected_pages": [4, 5],
+    "expect_grounded": true
+  },
+  {
+    "id": "tempo_reembolso",
+    "question": "Quanto tempo demora para receber um reembolso aprovado?",
+    "required_groups": [["5 a 10 dias úteis", "5 e 10 dias úteis"]],
+    "expected_pages": [4, 10],
+    "expect_grounded": true
+  },
+  {
+    "id": "custo_erro_empresa",
+    "question": "Quem paga a devolução quando a BimBam Buy enviou o produto errado?",
+    "required_groups": [["sem custo", "não terá custo", "não tem custo"], ["bimbam buy", "empresa"]],
+    "expected_pages": [7],
+    "expect_grounded": true
+  },
+  {
+    "id": "condicoes_devolucao",
+    "question": "Quais condições o produto precisa cumprir para a devolução ser aceita?",
+    "required_groups": [["número do pedido", "comprovante de compra"], ["acessórios"], ["prazo"]],
+    "expected_pages": [4, 5],
+    "expect_grounded": true
+  },
+  {
+    "id": "fora_documento",
+    "question": "A BimBam Buy oferece cartão de crédito próprio?",
+    "required_groups": [["não encontrei essa informação"]],
+    "expected_pages": [],
+    "expect_grounded": false
+  }
+]
