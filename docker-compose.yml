@@ -1,0 +1,36 @@
+services:
+  web:
+    build: .
+    container_name: alura-rag-web
+    restart: unless-stopped
+    env_file:
+      - .env
+    ports:
+      - "127.0.0.1:8502:8501"
+    volumes:
+      - ./data:/app/data
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=3)"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  telegram:
+    profiles: ["telegram"]
+    build: .
+    container_name: alura-rag-telegram
+    restart: unless-stopped
+    command: ["python", "telegram_bots.py"]
+    env_file:
+      - .env
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      web:
+        condition: service_healthy
+
