@@ -3,9 +3,11 @@
 __pycache__/
 *.py[cod]
 .pytest_cache/
+tmp/
 .streamlit/secrets.toml
 data/vector_index.json
 data/vector_index.json.tmp
+data/documents/*.pdf
 reports/*.json
 reports/*.log
 !reports/avaliacao_rag.json

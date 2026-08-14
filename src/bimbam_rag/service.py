@@ -8,14 +8,14 @@ import unicodedata
 from pathlib import Path
 from typing import Any
 
-from .document import file_sha256, read_pdf_chunks
+from .document import collection_sha256, read_pdf_collection
 from .models import RAGAnswer, SearchResult, SourceExcerpt
 from .vector_store import VectorStore
 
 
 NO_INFORMATION = (
-    "Não encontrei essa informação na Política de Reembolsos e Devoluções da BimBam Buy. "
-    "Tente reformular a pergunta usando detalhes do pedido, da devolução ou do reembolso."
+    "Não encontrei essa informação nos documentos da BimBam Buy. "
+    "Tente reformular a pergunta usando mais detalhes."
 )
 
 
@@ -26,8 +26,9 @@ class ConfigurationError(RuntimeError):
 class RAGService:
     def __init__(
         self,
-        pdf_path: Path,
         index_path: Path,
+        pdf_path: Path | None = None,
+        pdf_paths: tuple[Path, ...] | list[Path] | None = None,
         api_key: str | None = None,
         generation_model: str | None = None,
         embedding_model: str | None = None,
@@ -35,7 +36,14 @@ class RAGService:
         min_similarity: float = 0.35,
         client: Any | None = None,
     ) -> None:
-        self.pdf_path = pdf_path
+        selected_paths = tuple(Path(path) for path in (pdf_paths or ()))
+        if pdf_path is not None:
+            selected_paths = (Path(pdf_path), *selected_paths)
+        unique_paths = tuple(dict.fromkeys(path.resolve() for path in selected_paths))
+        if not unique_paths:
+            raise ValueError("Informe pelo menos um PDF para o agente")
+        self.pdf_paths = unique_paths
+        self.pdf_path = unique_paths[0]
         self.index_path = index_path
         self.api_key = api_key or os.getenv("GEMINI_API_KEY", "")
         self.generation_model = generation_model or os.getenv(
@@ -74,7 +82,7 @@ class RAGService:
             contents=texts,
             config=self._embedding_config(
                 "RETRIEVAL_DOCUMENT",
-                "Política de Reembolsos e Devoluções da BimBam Buy",
+                "Documentação corporativa da BimBam Buy",
             ),
         )
         return [list(item.values) for item in result.embeddings]
@@ -96,7 +104,7 @@ class RAGService:
         return [list(item.values) for item in result.embeddings]
 
     def ensure_index(self, force: bool = False) -> VectorStore:
-        document_hash = file_sha256(self.pdf_path)
+        document_hash = collection_sha256(self.pdf_paths)
         if not force and self._store is not None:
             if (
                 self._store.document_hash == document_hash
@@ -105,15 +113,19 @@ class RAGService:
                 return self._store
 
         if not force and self.index_path.exists():
-            stored = VectorStore.load(self.index_path)
-            if (
-                stored.document_hash == document_hash
-                and stored.embedding_model == self.embedding_model
-            ):
-                self._store = stored
-                return stored
+            try:
+                stored = VectorStore.load(self.index_path)
+            except (KeyError, TypeError, ValueError):
+                stored = None
+            if stored is not None:
+                if (
+                    stored.document_hash == document_hash
+                    and stored.embedding_model == self.embedding_model
+                ):
+                    self._store = stored
+                    return stored
 
-        chunks = read_pdf_chunks(self.pdf_path)
+        chunks = read_pdf_collection(self.pdf_paths)
         embeddings = self._embed_documents([chunk.text for chunk in chunks])
         self._store = VectorStore.from_embeddings(
             chunks=chunks,
@@ -213,6 +225,8 @@ class RAGService:
                 if not 0 <= neighbor_position < len(store.chunks):
                     continue
                 neighbor = store.chunks[neighbor_position]
+                if neighbor.document_name != result.chunk.document_name:
+                    continue
                 expanded.setdefault(
                     neighbor.chunk_id,
                     SearchResult(chunk=neighbor, score=max(result.score - 0.001, 0.0)),
@@ -248,7 +262,8 @@ class RAGService:
         for position, item in enumerate(relevant, start=1):
             pages = ", ".join(str(page) for page in item.chunk.pages)
             context_parts.append(
-                f"[TRECHO {position} | página(s) {pages} | id {item.chunk.chunk_id}]\n"
+                f"[TRECHO {position} | documento {item.chunk.document_name} | "
+                f"página(s) {pages} | id {item.chunk.chunk_id}]\n"
                 f"{item.chunk.text}"
             )
             sources.append(
@@ -257,13 +272,14 @@ class RAGService:
                     pages=item.chunk.pages,
                     score=item.score,
                     text=item.chunk.text,
+                    document_name=item.chunk.document_name,
                 )
             )
 
         prompt = (
             "PERGUNTA DO USUÁRIO:\n"
             f"{question}\n\n"
-            "CONTEXTO RECUPERADO DO PDF:\n"
+            "CONTEXTO RECUPERADO DOS DOCUMENTOS:\n"
             + "\n\n".join(context_parts)
         )
         system_instruction = (
@@ -274,8 +290,8 @@ class RAGService:
             "válido. Em perguntas de sim ou não, explique a condição aplicável quando ela estiver "
             "no contexto, em vez de recusar por falta de uma frase idêntica. Quando o contexto não "
             "sustentar a resposta, diga exatamente: "
-            f"'{NO_INFORMATION}' Ao final de uma resposta fundamentada, inclua 'Fonte: página X' "
-            "ou 'Fontes: páginas X e Y', usando apenas as páginas presentes no contexto."
+            f"'{NO_INFORMATION}' Ao final de uma resposta fundamentada, cite o nome do documento "
+            "e a página, usando somente fontes presentes no contexto."
         )
 
         from google.genai import types

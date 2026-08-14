@@ -4,7 +4,7 @@ from types import SimpleNamespace
 from bimbam_rag.service import RAGService
 from bimbam_rag.models import DocumentChunk
 from bimbam_rag.vector_store import VectorStore
-from bimbam_rag.document import file_sha256
+from bimbam_rag.document import collection_sha256
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,7 +61,7 @@ def test_retrieval_includes_neighbor_when_section_crosses_pages(tmp_path: Path) 
             DocumentChunk("p05-c02", "Casos não elegíveis", (5,)),
         ],
         embeddings=[[0.99, 0.01], [1.0, 0.0], [0.0, 1.0]],
-        document_hash=file_sha256(PDF),
+        document_hash=collection_sha256([PDF]),
         embedding_model=service.embedding_model,
     )
 

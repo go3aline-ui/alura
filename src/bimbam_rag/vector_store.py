@@ -11,7 +11,7 @@ import numpy as np
 from .models import DocumentChunk, SearchResult
 
 
-INDEX_VERSION = 1
+INDEX_VERSION = 2
 
 
 def normalize_vector(values: list[float] | np.ndarray) -> np.ndarray:
@@ -70,6 +70,7 @@ class VectorStore:
             "items": [
                 {
                     "chunk_id": chunk.chunk_id,
+                    "document_name": chunk.document_name,
                     "pages": list(chunk.pages),
                     "text": chunk.text,
                     "vector": self.vectors[index].tolist(),
@@ -91,6 +92,7 @@ class VectorStore:
                 chunk_id=item["chunk_id"],
                 pages=tuple(int(page) for page in item["pages"]),
                 text=item["text"],
+                document_name=item.get("document_name", ""),
             )
             for item in payload["items"]
         ]
@@ -101,4 +103,3 @@ class VectorStore:
             document_hash=payload["document_hash"],
             embedding_model=payload["embedding_model"],
         )
-

@@ -13,6 +13,7 @@ from dotenv import load_dotenv
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+from bimbam_rag.library import list_pdf_paths  # noqa: E402
 from bimbam_rag.service import RAGService  # noqa: E402
 from bimbam_rag.telegram_demo import load_cases, normalize_text  # noqa: E402
 
@@ -22,7 +23,7 @@ def main() -> None:
     matrix = load_cases(ROOT / "data" / "perguntas_teste.json")
     cases = [case for case in matrix if case.get("expect_grounded", True)]
     service = RAGService(
-        pdf_path=ROOT / "data" / "politica_reembolsos_devolucoes_bimbam_buy.pdf",
+        pdf_paths=list_pdf_paths(ROOT / "data"),
         index_path=ROOT / "data" / "vector_index.json",
     )
 

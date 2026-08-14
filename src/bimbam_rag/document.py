@@ -26,6 +26,20 @@ def clean_text(text: str) -> str:
     return text.strip()
 
 
+def document_title(text: str, fallback: str) -> str:
+    heading: list[str] = []
+    for line in text.splitlines():
+        line = " ".join(line.split()).strip()
+        if not line:
+            continue
+        if line.casefold() in {"índice", "indice", "sumário", "sumario"}:
+            break
+        heading.append(line)
+        if len(" ".join(heading)) >= 100:
+            break
+    return " ".join(heading).strip() or fallback
+
+
 def _split_large_block(block: str, limit: int) -> list[str]:
     if len(block) <= limit:
         return [block]
@@ -45,7 +59,14 @@ def _split_large_block(block: str, limit: int) -> list[str]:
     return parts
 
 
-def _page_chunks(text: str, page_number: int, chunk_size: int, overlap: int) -> list[DocumentChunk]:
+def _page_chunks(
+    text: str,
+    page_number: int,
+    chunk_size: int,
+    overlap: int,
+    document_id: str,
+    document_name: str,
+) -> list[DocumentChunk]:
     blocks: list[str] = []
     for paragraph in re.split(r"\n\s*\n", clean_text(text)):
         paragraph = paragraph.strip()
@@ -60,9 +81,10 @@ def _page_chunks(text: str, page_number: int, chunk_size: int, overlap: int) -> 
         if current and len(candidate) > chunk_size:
             chunks.append(
                 DocumentChunk(
-                    chunk_id=f"p{page_number:02d}-c{chunk_number:02d}",
+                    chunk_id=f"{document_id}-p{page_number:02d}-c{chunk_number:02d}",
                     text=current,
                     pages=(page_number,),
+                    document_name=document_name,
                 )
             )
             chunk_number += 1
@@ -74,15 +96,21 @@ def _page_chunks(text: str, page_number: int, chunk_size: int, overlap: int) -> 
     if current:
         chunks.append(
             DocumentChunk(
-                chunk_id=f"p{page_number:02d}-c{chunk_number:02d}",
+                chunk_id=f"{document_id}-p{page_number:02d}-c{chunk_number:02d}",
                 text=current,
                 pages=(page_number,),
+                document_name=document_name,
             )
         )
     return chunks
 
 
-def read_pdf_chunks(path: Path, chunk_size: int = 1_400, overlap: int = 220) -> list[DocumentChunk]:
+def read_pdf_chunks(
+    path: Path,
+    chunk_size: int = 1_400,
+    overlap: int = 220,
+    document_name: str | None = None,
+) -> list[DocumentChunk]:
     if not path.exists():
         raise FileNotFoundError(f"PDF não encontrado: {path}")
     if chunk_size < 400:
@@ -91,13 +119,48 @@ def read_pdf_chunks(path: Path, chunk_size: int = 1_400, overlap: int = 220) -> 
         raise ValueError("overlap deve estar entre 0 e chunk_size - 1")
 
     reader = PdfReader(str(path))
+    first_page = reader.pages[0].extract_text() or "" if reader.pages else ""
+    document_name = document_name or document_title(
+        first_page, path.stem.replace("_", " ")
+    )
+    normalized_stem = re.sub(r"[^a-z0-9]+", "-", path.stem.lower()).strip("-")
+    document_id = f"{normalized_stem[:36] or 'documento'}-{file_sha256(path)[:8]}"
     chunks: list[DocumentChunk] = []
     for page_number, page in enumerate(reader.pages, start=1):
         text = page.extract_text() or ""
         if text.strip():
-            chunks.extend(_page_chunks(text, page_number, chunk_size, overlap))
+            chunks.extend(
+                _page_chunks(
+                    text,
+                    page_number,
+                    chunk_size,
+                    overlap,
+                    document_id,
+                    document_name,
+                )
+            )
 
     if not chunks:
         raise ValueError("O PDF não possui texto pesquisável")
     return chunks
 
+
+def collection_sha256(paths: tuple[Path, ...] | list[Path]) -> str:
+    if not paths:
+        raise ValueError("A coleção precisa ter pelo menos um PDF")
+    digest = hashlib.sha256()
+    for path in sorted((Path(item).resolve() for item in paths), key=str):
+        digest.update(path.name.encode("utf-8"))
+        digest.update(file_sha256(path).encode("ascii"))
+    return digest.hexdigest()
+
+
+def read_pdf_collection(
+    paths: tuple[Path, ...] | list[Path], chunk_size: int = 1_400, overlap: int = 220
+) -> list[DocumentChunk]:
+    chunks: list[DocumentChunk] = []
+    for path in paths:
+        chunks.extend(read_pdf_chunks(Path(path), chunk_size=chunk_size, overlap=overlap))
+    if not chunks:
+        raise ValueError("Nenhum PDF com texto pesquisável foi encontrado")
+    return chunks

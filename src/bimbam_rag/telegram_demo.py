@@ -14,6 +14,7 @@ from typing import Any
 
 import requests
 
+from .library import list_pdf_paths
 from .models import RAGAnswer
 from .service import RAGService
 
@@ -258,7 +259,7 @@ def coordinator_from_environment(root: Path) -> TelegramDemoCoordinator:
         raise RuntimeError("Variáveis ausentes: " + ", ".join(missing))
 
     service = RAGService(
-        pdf_path=root / "data" / "politica_reembolsos_devolucoes_bimbam_buy.pdf",
+        pdf_paths=list_pdf_paths(root / "data"),
         index_path=root / "data" / "vector_index.json",
     )
     return TelegramDemoCoordinator(

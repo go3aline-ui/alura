@@ -10,6 +10,7 @@ class DocumentChunk:
     chunk_id: str
     text: str
     pages: tuple[int, ...]
+    document_name: str = ""
 
 
 @dataclass(frozen=True)
@@ -24,6 +25,7 @@ class SourceExcerpt:
     pages: tuple[int, ...]
     score: float
     text: str
+    document_name: str = ""
 
 
 @dataclass(frozen=True)
@@ -35,4 +37,3 @@ class RAGAnswer:
 
     def to_dict(self) -> dict:
         return asdict(self)
-
